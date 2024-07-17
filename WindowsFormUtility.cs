@@ -27,7 +27,9 @@ namespace CPUWindowsFormFrameWork
             switch (controltype)
             {
                 case "txt":
-                case "lbl":
+                    propertyname = "Text";
+                    break;
+                    case "lbl":
                     propertyname = "Text";
                     break;
                 case "dtp":
@@ -37,7 +39,7 @@ namespace CPUWindowsFormFrameWork
 
             if (propertyname != "" && columnname != "")
             {
-                ctrl.DataBindings.Add(propertyname, dt, columnname, true, DataSourceUpdateMode.OnPropertyChanged);
+                ctrl.DataBindings.Add(propertyname, dt, columnname, false, DataSourceUpdateMode.OnPropertyChanged);
             }
         }
 
