@@ -39,7 +39,7 @@ namespace CPUWindowsFormFrameWork
 
             if (propertyname != "" && columnname != "")
             {
-                ctrl.DataBindings.Add(propertyname, dt, columnname, false, DataSourceUpdateMode.OnPropertyChanged);
+                ctrl.DataBindings.Add(propertyname, dt, columnname, true, DataSourceUpdateMode.OnPropertyChanged);
             }
         }
 
