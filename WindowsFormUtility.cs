@@ -44,14 +44,61 @@ namespace CPUWindowsFormFrameWork
             }
         }
 
-        public static void FormatGridforsearchresults(DataGridView grid)
+        public static void FormatGridforsearchresults(DataGridView grid, string tablename)
         {
             grid.AllowUserToAddRows = false;
             grid.ReadOnly = true;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DoFormatGrid(grid, tablename);
         }
 
+        public static void FormatGridForEdit(DataGridView grid, string tablename)
+        {
+            grid.EditMode = DataGridViewEditMode.EditOnEnter;
+            DoFormatGrid(grid, tablename);
+        }
+
+        private static void DoFormatGrid(DataGridView grid, string tablename)
+        {
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            grid.RowHeadersWidth = 25;
+            foreach(DataGridViewColumn col in grid.Columns)
+            {
+                if (col.Name.EndsWith("Id"))
+                {
+                    col.Visible = false;
+                }
+            }
+            string pkname = tablename + "Id";
+            if (grid.Columns.Contains(pkname))
+            {
+                grid.Columns[pkname].Visible  = false;
+            }
+        }
+
+        public static int GetidFromGrid(DataGridView grid, int rowindex, string columnname)
+        {
+            int id = 0;
+            if(rowindex < grid.Rows.Count && grid.Columns.Contains(columnname) && grid.Rows[rowindex].Cells[columnname].Value != DBNull.Value)
+            {
+                if (grid.Rows[rowindex].Cells[columnname].Value is int)
+                {
+                    id = (int)grid.Rows[rowindex].Cells[columnname].Value;
+                }
+            }
+            return id;
+        }
+
+        public static void AddComboBoxToGrid(DataGridView grid,DataTable datasource, string tablename, string displaymember )
+        {
+            DataGridViewComboBoxColumn c = new();
+            c.DataSource = datasource;
+            c.DisplayMember = displaymember;
+            c.ValueMember = tablename + "Id";
+            c.DataPropertyName = c.ValueMember;
+            c.HeaderText = tablename;
+            grid.Columns.Insert(0, c);
+        }
         public static bool IsFormOpen(Type formtype, int pkvalue = 0)
         {
             bool exists = false;
