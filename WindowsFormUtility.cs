@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.DirectoryServices.ActiveDirectory;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 
 namespace CPUWindowsFormFrameWork
 {
     public static class WindowsFormUtility
     {
-        public static void SetListBinding(ComboBox lst, DataTable sourcedt, DataTable targetdt, string tablename)
+        public static void SetListBinding(ComboBox lst, DataTable sourcedt, DataTable? targetdt, string tablename)
         {
             lst.DataSource = sourcedt;
             lst.ValueMember = tablename + "Id";
             lst.DisplayMember = lst.Name.Substring(3);
-            lst.DataBindings.Add("SelectedValue", targetdt, lst.ValueMember, false, DataSourceUpdateMode.OnPropertyChanged);
+            if(targetdt != null)
+            {
+                lst.DataBindings.Add("SelectedValue", targetdt, lst.ValueMember, false, DataSourceUpdateMode.OnPropertyChanged);
+            }
+            
         } 
 
         public static void SetControlBinding(Control ctrl, BindingSource bindSource)
@@ -89,6 +87,18 @@ namespace CPUWindowsFormFrameWork
             return id;
         }
 
+        public static int GetIdFromComboBox(ComboBox lst)
+        {
+            int value = 0;
+
+            if (lst.SelectedValue != null && lst.SelectedValue is int)
+            {
+                value = (int)lst.SelectedValue;
+            }
+
+            return value;
+        }
+
         public static void AddComboBoxToGrid(DataGridView grid,DataTable datasource, string tablename, string displaymember )
         {
             DataGridViewComboBoxColumn c = new();
@@ -146,6 +156,11 @@ namespace CPUWindowsFormFrameWork
                     ((Form)btn.Tag).Activate();
                 }
             }
+        }
+
+        public static void DeleteButtonToGrid(DataGridView grid, string deletecolname)
+        {
+            grid.Columns.Add(new DataGridViewButtonColumn() { Text = "x", HeaderText = "Delete", Name = deletecolname, UseColumnTextForButtonValue = true });
         }
     }
 }
