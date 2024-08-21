@@ -13,7 +13,6 @@ namespace CPUWindowsFormFrameWork
             {
                 lst.DataBindings.Add("SelectedValue", targetdt, lst.ValueMember, false, DataSourceUpdateMode.OnPropertyChanged);
             }
-            
         } 
 
         public static void SetControlBinding(Control ctrl, BindingSource bindSource)
@@ -33,6 +32,9 @@ namespace CPUWindowsFormFrameWork
                     break;
                 case "dtp":
                     propertyname = "value";
+                    break;
+                case "ckb":
+                    propertyname = "Checked";
                     break;
             }
 
@@ -95,7 +97,6 @@ namespace CPUWindowsFormFrameWork
             {
                 value = (int)lst.SelectedValue;
             }
-
             return value;
         }
 
@@ -109,6 +110,7 @@ namespace CPUWindowsFormFrameWork
             c.HeaderText = tablename;
             grid.Columns.Insert(0, c);
         }
+
         public static bool IsFormOpen(Type formtype, int pkvalue = 0)
         {
             bool exists = false;
