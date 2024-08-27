@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using CPUFramework;
+using System.Data;
 
 namespace CPUWindowsFormFrameWork
 {
@@ -163,6 +164,17 @@ namespace CPUWindowsFormFrameWork
         public static void DeleteButtonToGrid(DataGridView grid, string deletecolname)
         {
             grid.Columns.Add(new DataGridViewButtonColumn() { Text = "x", HeaderText = "Delete", Name = deletecolname, UseColumnTextForButtonValue = true });
+        }
+
+        public static void HideColumn(DataGridView g, string s)
+        {
+            foreach (DataGridViewColumn col in g.Columns)
+            {
+                if (col.Name.StartsWith(s))
+                {
+                    col.Visible = false;
+                }
+            }
         }
     }
 }
